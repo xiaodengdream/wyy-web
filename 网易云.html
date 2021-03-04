@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网易云</title>
+    <script src="vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        #bei {
+            width: 70%;
+            height: 450px;
+            top: 101px;
+            left: 204.9px;
+            position: absolute;
+            background: url(djx.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+            z-index: -22;
+            opacity: 0.7;
+        }
+
+        #wyy {
+            width: 70%;
+            border: 1px solid black;
+            height: 556px;
+            padding: 0;
+            margin: 50px 0 0 204.9px;
+            z-index: 100;
+        }
+
+        #wyyinput {
+            height: 50px;
+            background-color: rgb(0, 175, 255);
+        }
+
+        #search {
+            position: absolute;
+            top: 10px;
+            left: 275px;
+            opacity: 0.6;
+        }
+
+        #search:hover {
+            cursor: pointer;
+        }
+
+        #heads {
+            position: absolute;
+            top: 60px;
+            left: 220px;
+            opacity: 0.6;
+            color: black;
+            font-size: 20px;
+        }
+
+        #head {
+            margin-top: 0.5em;
+
+        }
+
+        #head input {
+            border-radius: 15px;
+            opacity: 0.999;
+            background-color: whitesmoke;
+        }
+
+        #songs-menu {
+            width: 100%;
+            height: 450px;
+            background-repeat: no-repeat;
+            background-size: 100%;
+
+
+        }
+
+        #songs {
+            width: 28%;
+            height: 450px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            float: left;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        #play:hover {
+            cursor: pointer;
+        }
+
+        #mv:hover {
+            cursor: pointer;
+        }
+
+        #songspic {
+            width: 44%;
+            height: 450px;
+            float: left;
+            background-repeat: no-repeat;
+            border-left: 1px solid #C0C0C0;
+            border-right: 1px solid #C0C0C0;
+        }
+
+        #images {
+            margin: 100px 0 0 115px;
+            padding: 0;
+            height: 200px;
+            width: 200px;
+            border: 30px solid #181818;
+            border-radius: 100px;
+
+        }
+
+        #move {
+            animation-name: ratate;
+            animation-iteration-count: infinite;
+            animation-play-state: paused;
+            animation-duration: 8s;
+            animation-timing-function: linear;
+        }
+
+        @keyframes ratate {
+            form {
+                transform: rotateZ(0);
+            }
+
+            to {
+                transform: rotateZ(360deg);
+            }
+        }
+
+        /* 是否正在播放 */
+        .playing #move {
+            animation-play-state: running;
+        }
+
+        #images img {
+            width: 100%;
+            height: auto;
+
+        }
+
+        #songspl {
+            width: 28%;
+            height: 450px;
+            float: left;
+            overflow-y: scroll;
+        }
+
+        #audiowyy {
+            width: 100%;
+            height: 56px;
+            border: 1px solid black;
+            background: whitesmoke;
+
+        }
+
+        #audiowyy audio {
+            width: 100%;
+            opacity: 0.6;
+        }
+
+        #songs ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        #songs ul li {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            opacity: 0.8;
+            padding: 0.3em 0.3em 0.3em 1.5em;
+            font-weight: bold;
+        }
+
+        #songs ul li:hover {
+            background: #F8F8F8;
+            border-radius: 20px;
+            opacity: 0.7;
+            cursor: default;
+        }
+
+        #itemname {
+            font-weight: normal;
+            width: 8x;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+
+        #comment {
+            overflow-y: scroll;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        table {
+            border: 0;
+            height: 100px;
+        }
+
+        table tr {
+            width: 100%;
+            padding-top: 0;
+        }
+
+        #onetd {
+            width: 30%;
+        }
+
+        #ondth {
+            width: 70%;
+            height: 20px;
+        }
+
+        #twotd {
+            width: 70%;
+            height: 80px;
+        }
+
+        #onetd img {
+            width: 60%;
+            height: auto;
+            margin-top: 0;
+            margin-left: 20px;
+        }
+
+        #mvs {
+            width: 100%;
+            height: auto;
+            top: 0;
+            left: 0;
+            position: absolute;
+            padding: 0;
+        }
+
+        #mvs video {
+            width: 70%;
+            height: 569px;
+            top: 36px;
+            left: 550.9px;
+            z-index: 990;
+            position: fixed;
+            transform: translateX(-50%);
+            z-index: 990;
+        }
+
+        #mvs video {
+            position: fixed;
+            width: 70%;
+            height: 556px;
+            left: 50%;
+            top: 50%;
+            margin-top: -273px;
+            transform: translateX(-50%);
+            z-index: 990;
+        }
+
+        #mvs #dian {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 980;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id=wyy v-cloak>
+        <div id="wyyinput">
+            <span id="heads">网易云</span>
+            <div id="head" class="col-md-4 col-md-offset-8">
+                <input type="text" class=" form-control" v-model="search" v-on:keyup.enter="searchmusic">
+                <span v-on:click="searchmusic" id="search" class="glyphicon glyphicon-search"
+                    style="color: rgb(0, 0, 0);font-size: 18px;"></span>
+            </div>
+        </div>
+        <div id="songs-menu">
+            <div id="songs">
+                <ul>
+                    <li style="font-size: 20px;" v-for="item in songsarr">
+                        <div>
+                            <a v-on:click="playmusic(item.id)"><span id="play" class="glyphicon glyphicon-play-circle"
+                                    style="color: rgb(0, 142, 255); font-size: 16px;"></span>
+                            </a>
+                            <b id="itemname"> {{item.name}}</b>
+                            <a v-on:click="playmv(item.mvid)" v-if="item.mvid!=0"><span id="mv"
+                                    class="glyphicon glyphicon-facetime-video"
+                                    style="color: rgb(0, 142, 255); font-size: 18px;"></span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div id="songspic">
+                <div id="images" :class="{playing:isplaying}">
+                    <img v-bind:src="musicsrc" id="move" class="img-circle" alt="">
+                </div>
+            </div>
+            <div id="songspl">
+                <h4>热门评论</h4>
+                <div id="comment" v-for="item in musicpl">
+                    <table>
+                        <tr>
+                            <td id="onetd" rowspan="2"><img :src="item.user.avatarUrl" class="img-circle" alt=""></td>
+                            <th id="oneth">{{item.user.nickname}}</th>
+                        </tr>
+                        <tr>
+                            <td id="twotd">{{item.content}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="audiowyy">
+            <audio ref='audio' :src="musicurl" v-on:play="playdd" v-on:pause="pausedd" autoplay controls loop></audio>
+        </div>
+        <div id="mvs" v-show="shows" style="display: none;">
+            <video :src="mvsrc" controls>
+
+            </video>
+            <div id="dian" v-on:click="hides"></div>
+        </div>
+        <div id="bei"></div>
+    </div>
+    <script>
+        var wyy = new Vue({
+            el: "#wyy",
+            data: {
+                search: "",
+                songsarr: [],
+                musicurl: '',
+                musicsrc: '',
+                musicpl: [],
+                isplaying: false,
+                mvsrc: '',
+                shows: false,
+            },
+            methods: {
+                searchmusic: function () {
+                    var that = this;
+                    axios.get("https://www.autumnfish.cn/search/?keywords=" + this.search).then(
+                        function (response) {
+                            console.log(response);
+                            that.songsarr = response.data.result.songs;
+                        },
+                        function (error) {
+
+                        })
+                },
+                playmusic: function (musicid) {
+                    var that = this;
+                    axios.get("https://www.autumnfish.cn/song/url?id=" + musicid).then(
+                        function (response) {
+                            console.log(response);
+                            that.musicurl = response.data.data[0].url;
+                        },
+                        function (error) {
+
+                        })
+                    axios.get("https://www.autumnfish.cn/song/detail?ids=" + musicid).then(
+                        function (response) {
+                            console.log(response);
+                            that.musicsrc = response.data.songs[0].al.picUrl;
+
+                        },
+                        function (error) {
+
+                        })
+                    axios.get("https://www.autumnfish.cn/comment/hot?type=0&id=" + musicid).then(
+                        function (response) {
+                            console.log(response);
+                            that.musicpl = response.data.hotComments;
+                        },
+                        function (error) {
+
+                        })
+
+                },
+                playdd: function () {
+                    this.isplaying = true;
+                },
+                pausedd: function () {
+                    this.isplaying = false;
+                },
+                playmv: function (mvids) {
+                    var that = this;
+                    axios.get("https://www.autumnfish.cn/mv/url?id=" + mvids).then(
+                        function (response) {
+                            console.log(response);
+                            that.shows = true;
+                            that.mvsrc = response.data.data.url;
+                        },
+                        function (error) {
+
+                        })
+                },
+                hides: function () {
+                    this.shows = false;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
